@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, ScrollView, Dimensions} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import InputWithCheckbox from '../../components/InputWithCheckbox';
 import OperatorButton from '../../components/OperatorButton';
 
@@ -33,7 +33,10 @@ const Main = () => {
   };
 
   const calculate = operator => () => {
-    const filtered = inputs.filter((item, index) => item.enabled);
+    const filtered = inputs.filter(item => item.enabled);
+    if (filtered.length <= 1) {
+      return;
+    }
     let sum = parseInt(filtered[0].value, 10);
     switch (operator) {
       case '+':
