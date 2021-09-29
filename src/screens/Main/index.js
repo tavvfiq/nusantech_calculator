@@ -102,7 +102,7 @@ const Main = () => {
         <View style={styles.separator} />
         <View style={styles.resultWrapper}>
           <Text style={styles.text}>Hasil:</Text>
-          <Text style={styles.text}>{result}</Text>
+          <Text style={styles.text}>{Math.round(result * 100) / 100}</Text>
         </View>
       </View>
     </ScrollView>
