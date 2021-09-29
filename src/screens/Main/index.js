@@ -32,14 +32,18 @@ const Main = () => {
     setInputs(temp);
   };
 
+  const showToast = message => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+    );
+  };
+
   const calculate = operator => () => {
     const filtered = inputs.filter(item => item.enabled);
     if (filtered.length <= 1) {
-      ToastAndroid.showWithGravity(
-        'input harus lebih dari satu',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-      );
+      showToast('input harus lebih dari satu');
       return;
     }
     let sum = parseInt(filtered[0].value, 10);
@@ -53,11 +57,7 @@ const Main = () => {
         sum *= val;
       } else if (operator === '/') {
         if (val === 0) {
-          ToastAndroid.showWithGravity(
-            'penyebut tidak boleh nol',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-          );
+          showToast('penyebut tidak boleh nol');
           return;
         }
         sum /= val;
