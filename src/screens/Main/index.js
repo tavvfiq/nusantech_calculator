@@ -38,39 +38,22 @@ const Main = () => {
       return;
     }
     let sum = parseInt(filtered[0].value, 10);
-    switch (operator) {
-      case '+':
-        for (let i = 1; i < filtered.length; i++) {
-          const val = parseInt(filtered[i].value, 10);
-          sum += val;
+    for (let i = 1; i < filtered.length; i++) {
+      const val = parseInt(filtered[i].value, 10);
+      if (operator === '+') {
+        sum += val;
+      } else if (operator === '-') {
+        sum -= val;
+      } else if (operator === 'x') {
+        sum *= val;
+      } else if (operator === '/') {
+        if (val === 0) {
+          return;
         }
-        setResult(sum);
-        break;
-      case '-':
-        for (let i = 1; i < filtered.length; i++) {
-          const val = parseInt(filtered[i].value, 10);
-          sum -= val;
-        }
-        setResult(sum);
-        break;
-      case 'x':
-        for (let i = 1; i < filtered.length; i++) {
-          const val = parseInt(filtered[i].value, 10);
-          sum *= val;
-        }
-        setResult(sum);
-        break;
-      case '/':
-        for (let i = 1; i < filtered.length; i++) {
-          const val = parseInt(filtered[i].value, 10);
-          if (val === 0) {
-            break;
-          }
-          sum /= val;
-        }
-        setResult(sum);
-        break;
+        sum /= val;
+      }
     }
+    setResult(sum);
   };
 
   const numOfInputs = new Array(3).fill(0);
