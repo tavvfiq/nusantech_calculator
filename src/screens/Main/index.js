@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, ToastAndroid} from 'react-native';
 import InputWithCheckbox from '../../components/InputWithCheckbox';
 import OperatorButton from '../../components/OperatorButton';
 
@@ -20,13 +20,13 @@ const Main = () => {
     }
   };
 
-  const handleOnChange = index => newValue => {
+  const handleInputChange = index => newValue => {
     const temp = [...inputs];
     temp[index].value = newValue;
     setInputs(temp);
   };
 
-  const handleOnCheck = index => checked => {
+  const handleInputChecked = index => checked => {
     const temp = [...inputs];
     temp[index].enabled = checked;
     setInputs(temp);
@@ -35,6 +35,11 @@ const Main = () => {
   const calculate = operator => () => {
     const filtered = inputs.filter(item => item.enabled);
     if (filtered.length <= 1) {
+      ToastAndroid.showWithGravity(
+        'input harus lebih dari satu',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
     let sum = parseInt(filtered[0].value, 10);
@@ -48,6 +53,11 @@ const Main = () => {
         sum *= val;
       } else if (operator === '/') {
         if (val === 0) {
+          ToastAndroid.showWithGravity(
+            'penyebut tidak boleh nol',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+          );
           return;
         }
         sum /= val;
@@ -67,18 +77,17 @@ const Main = () => {
               key={index}
               value={inputs[index]?.value || ''}
               type="numeric"
-              onChange={handleOnChange(index)}
-              onChecked={handleOnCheck(index)}
+              onChange={handleInputChange(index)}
+              onChecked={handleInputChecked(index)}
             />
           );
         })}
-
         <View style={styles.operatorWrapper}>
-          {operators.map((item, index) => (
+          {operators.map((operator, index) => (
             <OperatorButton
               key={index}
-              title={item}
-              onPress={calculate(item)}
+              title={operator}
+              onPress={calculate(operator)}
             />
           ))}
         </View>
